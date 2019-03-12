@@ -1,0 +1,31 @@
+---
+  - name: Install calico-typha server
+    become: True
+    apt:
+      name: calico-typha-server
+      state: present
+      update_cache: yes
+      cache_valid_time: 1800
+
+  - name: Add calico-typha service
+    become: True
+    template:
+      src: calico-typha.service.j2
+      dest: /etc/systemd/system/calico-typha.service
+      owner: root
+      group: root
+      mode: 0644
+    notify: restart calico-typha
+
+  # Since Debian stretch uses systemd pre 233, we can't do bind mounts in the
+  # unit file and therefore have to do an ordinary mount after nsentering the
+  # process namespace. For this to work, the directory unfortunately needs
+  # to actually exist. This can be dropped once 'BindPaths' is available.
+  - name: Ensure token directory exists
+    become: True
+    file:
+      path: /var/run/secrets/kubernetes.io/serviceaccount
+      owner: root
+      group: root
+      mode: 0750
+      state: directory

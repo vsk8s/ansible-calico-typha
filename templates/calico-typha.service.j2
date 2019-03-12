@@ -1,0 +1,26 @@
+[Unit]
+Description=Calcio typha server
+
+[Service]
+ExecStart=/usr/bin/calico-typha
+Restart=on-failure
+ProtectSystem=full
+# It's like it runs in Kubernetes, except it doesn't...
+# Systemd 233:
+#BindReadOnlyPaths=/etc/calico/k8s,/var/run/secrets/kubernetes.io/serviceaccount
+# Unfortunately, Stretch comes with 232
+MountFlags=private
+ExecStartPost=+/usr/bin/nsenter -t $MAINPID -m /bin/mount --bind /etc/calico/k8s /var/run/secrets/kubernetes.io/serviceaccount
+Environment=KUBERNETES_SERVICE_HOST={{ kubernetes_ha_domain_intern }}
+Environment=KUBERNETES_SERVICE_PORT=443
+Environment=TYPHA_LOGSEVERITYSCREEN=info
+Environment=TYPHA_LOGFILEPATH=none
+Environment=TYPHA_LOGSEVERITYSYS=none
+Environment=TYPHA_DATASTORETYPE=kubernetes
+Environment=TYPHA_HEALTHENABLED=false
+Environment=TYPHA_PROMETHEUSMETRICSENABLED=true
+Environment=TYPHA_PROMETHEUSMETRICSPORT=9093
+
+
+[Install]
+WantedBy=multi-user.target

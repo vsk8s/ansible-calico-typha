@@ -1,0 +1,8 @@
+---
+  - name: restart calico-typha
+    become: True
+    systemd:
+      name: calico-typha
+      state: restarted
+      enabled: yes
+      daemon_reload: yes
