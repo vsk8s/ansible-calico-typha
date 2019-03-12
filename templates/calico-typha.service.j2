@@ -20,6 +20,10 @@ Environment=TYPHA_DATASTORETYPE=kubernetes
 Environment=TYPHA_HEALTHENABLED=false
 Environment=TYPHA_PROMETHEUSMETRICSENABLED=true
 Environment=TYPHA_PROMETHEUSMETRICSPORT=9093
+Environment=TYPHA_CAFILE=/etc/calico/typha/ca.pem
+Environment=TYPHA_CLIENTURISAN=spiffe://{{ kubernetes_ha_domain_intern }}/calico/typha
+Environment=TYPHA_SERVERCERTFILE=/etc/calico/typha/server.cert
+Environment=TYPHA_SERVERKEYFILE=/etc/calico/typha/server.key
 
 
 [Install]
