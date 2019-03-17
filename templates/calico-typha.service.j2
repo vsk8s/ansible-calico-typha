@@ -3,6 +3,7 @@ Description=Calcio typha server
 
 [Service]
 ExecStart=/usr/bin/calico-typha
+ExecStartPre=-/bin/mkdir -p /var/run/secrets/kubernetes.io/serviceaccount
 Restart=on-failure
 ProtectSystem=full
 # It's like it runs in Kubernetes, except it doesn't...
