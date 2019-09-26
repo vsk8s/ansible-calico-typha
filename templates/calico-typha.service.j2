@@ -15,6 +15,7 @@ ExecStartPost=+/usr/bin/nsenter -t $MAINPID -m /bin/mount --bind /etc/calico/k8s
 Environment=KUBERNETES_SERVICE_HOST={{ kubernetes_ha_domain_intern }}
 Environment=KUBERNETES_SERVICE_PORT=443
 Environment=TYPHA_LOGSEVERITYSCREEN=info
+Environment=USE_POD_CIDR=true
 Environment=TYPHA_LOGFILEPATH=none
 Environment=TYPHA_LOGSEVERITYSYS=none
 Environment=TYPHA_DATASTORETYPE=kubernetes
